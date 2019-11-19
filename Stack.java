@@ -18,21 +18,9 @@ public class Stack<ContentType> {
             return lastNode;
         }
 
-        public void setNext(StackNode pNext) {
-            nextNode = pNext;
-        }
-
-        public StackNode getNext() {
-            return nextNode;
-        }
-
 
         public ContentType getContent() {
             return content;
-        }
-        public StackNode getObject(){
-            return this;
-        }
 
     }
 
@@ -60,7 +48,6 @@ public class Stack<ContentType> {
                 previousNode = newNode;
             } else {
                 newNode.setLast(previousNode);
-                previousNode.setNext(newNode);
                 top = newNode;
                 previousNode = top;
             }
@@ -71,9 +58,7 @@ public class Stack<ContentType> {
         if (!this.isEmpty()) {
             top = top.getLast();
             previousNode = top;
-            if(top != null){
-                previousNode.setNext(null);
-            }
+            
             if (this.isEmpty()) {
                 top = null;
             }
