@@ -1,74 +1,90 @@
-import java.util.*;
-public class Stack<ContentType>
-{
-    private class StackNode
-    {
+public class Stack<ContentType> {
+
+    private class StackNode {
+
         private ContentType content = null;
-        private StackNode previousNode = null;
-        public StackNode(ContentType pContent)
-        {
+        private StackNode nextNode = null;
+        private StackNode lastNode = null;
+
+        public StackNode(ContentType pContent) {
             content = pContent;
-            previousNode = null;
+            nextNode = null;
         }
-        public void setLast(StackNode pLast)
-        {
-            previousNode = pLast;
+
+        public void setLast(StackNode pLast){
+            lastNode = pLast;
         }
-        public StackNode getLast()
-        {
-            return previousNode;
+        public StackNode getLast(){
+            return lastNode;
         }
-        public ContentType getContent()
-        {
+
+        public void setNext(StackNode pNext) {
+            nextNode = pNext;
+        }
+
+        public StackNode getNext() {
+            return nextNode;
+        }
+
+
+        public ContentType getContent() {
             return content;
         }
+        public StackNode getObject(){
+            return this;
+        }
+
     }
-    private StackNode head;
-    private StackNode lastNode;
-    public Stack()
-    {
-       head = null;
+
+
+    private StackNode top;
+    private StackNode previousNode;
+
+
+    public Stack() {
+        top = null;
+        previousNode = null;
     }
-    public boolean isEmpty()
-    {
-        if(head != null)
-        {
-            return true;
-        } 
-        else 
-        {
-            return false;
+
+    public boolean isEmpty() {
+        return top == null;
+    }
+
+
+    public void push(ContentType pContent) {
+
+        if(pContent != null){
+            StackNode newNode = new StackNode(pContent);
+            if(this.isEmpty()){
+                top = newNode;
+                previousNode = newNode;
+            } else {
+                newNode.setLast(previousNode);
+                previousNode.setNext(newNode);
+                top = newNode;
+                previousNode = top;
+            }
         }
     }
-    public void setLast(StackNode pNode)
-    {
-        lastNode = pNode;
-    }
-    public StackNode getLast(){
-        return lastNode;
-    }
-    public void push(ContentType pContent)
-    {
-        if(pContent  != null)
-        {
-            StackNode newNode = new StackNode(pContent);
-            if(this.isEmpty())
-            {
-                head = newNode;
-                this.setLast(newNode);
+
+    public void pop() {
+        if (!this.isEmpty()) {
+            top = top.getLast();
+            previousNode = top;
+            if(top != null){
+                previousNode.setNext(null);
             }
-            else
-            {
-                try 
-                {
-                    head.setLast(this.getLast());
-                } 
-                catch (Exception e)
-                {
-                    head.setLast(newNode);
-                }
-                head = newNode;
+            if (this.isEmpty()) {
+                top = null;
             }
+        }
+    }
+
+    public ContentType getTop() {
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            return top.getContent();
         }
     }
 }
